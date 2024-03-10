@@ -43,12 +43,15 @@ class CustomAuthToken(ObtainAuthToken):
             role_names = []
             for role in roles:
                 role_names.append(role.name)
+            #Si solo es un rol especifico asignamoes el elemento 0
+            role_names = role_names[0]
+            
+            token, created = Token.objects.get_or_create(user=user)
 
             profile = Profiles.objects.filter(user=user).first()
             if not profile:
                 return Response({},404)
 
-            token, created = Token.objects.get_or_create(user=user)
 
             return Response({
                 'id': user.pk,
