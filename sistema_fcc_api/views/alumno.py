@@ -84,7 +84,7 @@ class AlumnoView(generics.CreateAPIView):
                                             matricula= request.data["matricula"],
                                             telefono= request.data["telefono"],
                                             curp= request.data["curp"].upper(),
-                                            fechaNacimiento= request.data["fechaNacimiento"],
+                                            fecha_nacimiento= request.data["fecha_nacimiento"],
                                             rfc= request.data["rfc"].upper(),
                                             edad= request.data["edad"],
                                             ocupacion= request.data["ocupacion"])
