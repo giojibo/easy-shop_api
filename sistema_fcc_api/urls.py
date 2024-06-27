@@ -20,14 +20,35 @@ from sistema_fcc_api.views import users
 from sistema_fcc_api.views import auth
 from sistema_fcc_api.views import alumno
 from sistema_fcc_api.views import maestro
+from sistema_fcc_api.views import materias
 
 urlpatterns = [
     #Version
         path('bootstrap/version', bootstrap.VersionView.as_view()),
     #Create User
         path('admin/', users.AdminView.as_view()),
+        #Admin Data
+        path('lista-admin/', users.AdminAll.as_view()),
+        #Editar Admin 
+         path('admin-edit/', users.AdminViewEdit.as_view()),
+        #Create Alumnos
         path('alumno/', alumno.AlumnoView.as_view()),
+        #Alumnos Data
+        path('lista-alumno/', alumno.AlumnoAll.as_view()),
+        #Editar alumnos
+        path('alumno-edit/',alumno.AlumnoViewEdit.as_view()),
+        #Creater Maestros
         path('maestro/', maestro.MaestroView.as_view()),
+        #Maestros Data
+        path('lista-maestro/', maestro.MaestroAll.as_view()),
+        #Editar maestro
+        path('maestro-edit/', maestro.MaestroViewEdit.as_view()),
+        #registrar Materias 
+        path('materia/', materias.MateriaView.as_view()),
+        #Materias Data
+        path('lista-materia/', materias.MateriasAll.as_view()),
+        #editar materias
+        path('materia-edit/', materias.MateriaViewEdit.as_view()),
     #Login
         path('token/', auth.CustomAuthToken.as_view()),
     #Logout

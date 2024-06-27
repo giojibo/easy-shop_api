@@ -34,15 +34,15 @@ import json
 class MaestroAll(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, *args, **kwargs):
-        maestro = Maestros.objects.filter(user__is_active = 1).order_by("id")
-        lista = MaestroSerializer(maestro, many=True).data
+        maestros = Maestros.objects.filter(user__is_active = 1).order_by("id")
+        maestros = MaestroSerializer(maestros, many=True).data
         
-        if not maestro: 
+        if not maestros: 
             return Response({},400)
-        for maestro in maestro:
+        for maestro in maestros:
             maestro["materias_json"] = json.loads(maestro["materias_json"])
         
-        return Response(lista, 200)
+        return Response(maestros, 200)
     
 class MaestroView(generics.CreateAPIView):
     #Obtener usuario por ID
@@ -101,3 +101,34 @@ class MaestroView(generics.CreateAPIView):
             return Response({"maestro_created_id": maestro.id }, 201)
 
         return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class MaestroViewEdit(generics.CreateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    def put(self, request, *args, **kwargs):
+        # iduser=request.data["id"]
+        maestro = get_object_or_404(Maestros, id=request.data["id"])
+        maestro.id_trabajador = request.data["id_trabajador"]
+        maestro.fecha_nacimiento = request.data["fecha_nacimiento"]
+        maestro.telefono = request.data["telefono"]
+        maestro.rfc = request.data["rfc"]
+        maestro.cubiculo = request.data["cubiculo"]
+        maestro.area_investigacion = request.data["area_investigacion"]
+        maestro.materias_json = json.dumps(request.data["materias_json"])
+        maestro.save()
+        temp = maestro.user
+        temp.first_name = request.data["first_name"]
+        temp.last_name = request.data["last_name"]
+        temp.save()
+        user = MaestroSerializer(maestro, many=False).data
+
+        return Response(user,200)
+    
+    #Eliminar maestro 
+    #Eliminar administrador
+    def delete(self, request, *args, **kwargs):
+        maestro = get_object_or_404(Maestros, id=request.GET.get("id"))
+        try:
+            maestro.user.delete()
+            return Response({"details":"Maestro eliminado"},200)
+        except Exception as e:
+            return Response({"details":"Algo pasó al eliminar"},400)

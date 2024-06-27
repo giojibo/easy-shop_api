@@ -47,19 +47,19 @@ class CustomAuthToken(ObtainAuthToken):
 
             token, created = Token.objects.get_or_create(user=user)
 
-            if role_names == 'Alumno':
+            if role_names == 'alumno':
                 alumno = Alumnos.objects.filter(user=user).first()
                 alumno = AlumnoSerializer(alumno).data
                 alumno["token"] = token.key
                 alumno["rol"] = "alumno"
                 return Response(alumno,200)
-            if role_names == 'Maestro':
+            if role_names == 'maestro':
                 maestro = Maestros.objects.filter(user=user).first()
                 maestro = MaestroSerializer(maestro).data
                 maestro["token"] = token.key
                 maestro["rol"] = "maestro"
                 return Response(maestro,200)
-            if role_names == 'Administrador':
+            if role_names == 'administrador':
                 user = UserSerializer(user, many=False).data
                 user['token'] = token.key
                 user["rol"] = "administrador"
