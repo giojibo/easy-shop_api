@@ -18,9 +18,9 @@ from django.urls import path
 from sistema_fcc_api.views import bootstrap
 from sistema_fcc_api.views import users
 from sistema_fcc_api.views import auth
-from sistema_fcc_api.views import alumno
-from sistema_fcc_api.views import maestro
-from sistema_fcc_api.views import materias
+from sistema_fcc_api.views import cliente
+from sistema_fcc_api.views import vendedor
+from sistema_fcc_api.views import productos
 
 urlpatterns = [
     #Version
@@ -28,27 +28,27 @@ urlpatterns = [
     #Create User
         path('admin/', users.AdminView.as_view()),
         #Admin Data
-        path('lista-admin/', users.AdminAll.as_view()),
+       # path('lista-admin/', users.AdminAll.as_view()),
         #Editar Admin 
-         path('admin-edit/', users.AdminViewEdit.as_view()),
+       #  path('admin-edit/', users.AdminViewEdit.as_view()),
         #Create Alumnos
-        path('alumno/', alumno.AlumnoView.as_view()),
+        path('cliente/', cliente.AlumnoView.as_view()),
         #Alumnos Data
-        path('lista-alumno/', alumno.AlumnoAll.as_view()),
+      ##  path('lista-alumno/', cliente.AlumnoAll.as_view()),
         #Editar alumnos
-        path('alumno-edit/',alumno.AlumnoViewEdit.as_view()),
+       # path('alumno-edit/',cliente.AlumnoViewEdit.as_view()),
         #Creater Maestros
-        path('maestro/', maestro.MaestroView.as_view()),
+        path('vendedor/', vendedor.MaestroView.as_view()),
         #Maestros Data
-        path('lista-maestro/', maestro.MaestroAll.as_view()),
+       # path('lista-maestro/', vendedor.MaestroAll.as_view()),
         #Editar maestro
-        path('maestro-edit/', maestro.MaestroViewEdit.as_view()),
+       # path('maestro-edit/', vendedor.MaestroViewEdit.as_view()),
         #registrar Materias 
-        path('materia/', materias.MateriaView.as_view()),
+        path('productos/', productos.MateriaView.as_view()),
         #Materias Data
-        path('lista-materia/', materias.MateriasAll.as_view()),
+       # path('lista-materia/', productos.MateriasAll.as_view()),
         #editar materias
-        path('materia-edit/', materias.MateriaViewEdit.as_view()),
+       # path('materia-edit/', productos.MateriaViewEdit.as_view()),
     #Login
         path('token/', auth.CustomAuthToken.as_view()),
     #Logout

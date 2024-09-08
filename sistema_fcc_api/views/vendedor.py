@@ -34,22 +34,22 @@ import json
 class MaestroAll(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, *args, **kwargs):
-        maestros = Maestros.objects.filter(user__is_active = 1).order_by("id")
-        maestros = MaestroSerializer(maestros, many=True).data
+        vendedores = Vendedores.objects.filter(user__is_active = 1).order_by("id")
+        vendedores = VendedoresSerializer(vendedores, many=True).data
         
-        if not maestros: 
+        if not vendedores: 
             return Response({},400)
-        for maestro in maestros:
-            maestro["materias_json"] = json.loads(maestro["materias_json"])
+        for vendedor in vendedores:
+            vendedor["materias_json"] = json.loads(vendedor["materias_json"])
         
-        return Response(maestros, 200)
+        return Response(vendedores, 200)
     
 class MaestroView(generics.CreateAPIView):
     #Obtener usuario por ID
     # permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, *args, **kwargs):
         maestro = get_object_or_404(Maestros, id = request.GET.get("id"))
-        maestro = MaestroSerializer(maestro, many=False).data
+        maestro = VendedoresSerializer(maestro, many=False).data
         maestro["materias_json"] = json.loads(maestro["materias_json"])
 
         return Response(maestro, 200)

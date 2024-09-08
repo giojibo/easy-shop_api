@@ -18,31 +18,31 @@ class AdminSerializer(serializers.ModelSerializer):
         model = Administradores
         fields = "__all__"
 
-class AlumnoSerializer(serializers.ModelSerializer): 
+class ClientesSerializer(serializers.ModelSerializer): 
     user=UserSerializer(read_only=True)
     class Meta: 
-        model = Alumnos
+        model = Clientes
         fields = "__all__"
         
-class MaestroSerializer(serializers.ModelSerializer): 
+class VendedoresSerializer(serializers.ModelSerializer): 
     user=UserSerializer(read_only=True)
     
     class Meta: 
-        model = Maestros
+        model = Vendedores
         fields = "__all__"
         
-class MateriaSerializer(serializers.ModelSerializer):
-    nrc = serializers.IntegerField(read_only=True)
+class ProductosSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     nombre = serializers.CharField(required=True)
     
     class Meta:
-        model = Materias
+        model = Productos
         fields = ('nrc', 'nombre')
         
-class MateriasSerializer(serializers.ModelSerializer):
-    materia = MateriaSerializer(read_only=True)
+class ProductosSerializer(serializers.ModelSerializer):
+    productos = ProductosSerializer(read_only=True)
     
     class Meta:
-        model = Materias
+        model = Productos
         fields = "__all__"
         

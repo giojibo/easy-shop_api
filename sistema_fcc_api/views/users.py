@@ -84,9 +84,7 @@ class AdminView(generics.CreateAPIView):
             admin = Administradores.objects.create(user=user,
                                             clave_admin= request.data["clave_admin"],
                                             telefono= request.data["telefono"],
-                                            rfc= request.data["rfc"].upper(),
-                                            edad= request.data["edad"],
-                                            ocupacion= request.data["ocupacion"])
+                                            edad= request.data["edad"])
             admin.save()
 
             return Response({"admin_created_id": admin.id }, 201)
