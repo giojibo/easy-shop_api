@@ -37,7 +37,7 @@ class ProductosSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Productos
-        fields = ('nrc', 'nombre')
+        fields = ('id', 'nombre')
         
 class ProductosSerializer(serializers.ModelSerializer):
     productos = ProductosSerializer(read_only=True)
