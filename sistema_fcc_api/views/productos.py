@@ -30,73 +30,72 @@ import string
 import random
 import json
 
-class MateriasAll(generics.CreateAPIView):
+class ProductosAll(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, *args, **kwargs):
-        materias = Materias.objects.order_by("nrc")
-        materias = MateriasSerializer(materias, many=True).data
+        productos = Productos.objects.order_by("id")
+        productos = ProductosSerializer(productos, many=True).data
         
-        for materia in materias:
-            materia["dias"] = json.loads(materia["dias"])
+        #for producto in productos:
+        #    producto["entregas"] = json.loads(producto["entregas"])
         
-        return Response(materias, 200)
+        return Response(productos, 200)
     
 
-class MateriaView(generics.CreateAPIView):
+class ProductosView(generics.CreateAPIView):
     
     def get(self, request, *args, **kwargs):
-        materia = get_object_or_404(Materias, nrc = request.GET.get("nrc"))
-        materia = MateriasSerializer(materia, many=False).data
-        materia["dias"] = json.loads(materia["dias"])
+        producto = get_object_or_404(Productos, id = request.GET.get("id"))
+        producto = ProductosSerializer(producto, many=False).data
+       # producto["entregas"] = json.loads(producto["entregas"])
         
-        return Response(materia, 200)
+        return Response(producto, 200)
     
     @transaction.atomic
     def post(self, request, *args, **kwargs):
-        materia = MateriaSerializer(data=request.data)
-        if materia.is_valid():
-            nrc = request.data["nrc"]
+        producto = ProductosSerializer(data=request.data)
+        if producto.is_valid():
+            id = request.data["id"]
             
-            existing_nrc = Materias.objects.filter(nrc=nrc).first()
+            existing_nrc = Productos.objects.filter(id=id).first()
             
             if existing_nrc:
-                return Response({"message": "nrc" +nrc+", is already taken"},400)
+                return Response({"message": "id" +id+", is already taken"},400)
             
-            materia = Materias.objects.create( nrc = request.data["nrc"], 
+            producto = Productos.objects.create( id = request.data["id"], 
                                                nombre = request.data["nombre"],
-                                               seccion = request.data["seccion"],
-                                               dias = json.dumps(request.data["dias"]),
-                                               hora_inicio = request.data["hora_inicio"],
-                                               hora_final = request.data["hora_final"],
-                                               salon = request.data["salon"],
-                                               programa = request.data["programa"]
+                                               foto = request.data["foto"],
+                                               descripcion = request.data["descripcion"],
+                                               precio = request.data["precio"],
+                                               unidades = request.data["unidades"],
+                                               entregas = json.dumps(request.data["entregas"]),
+                                              
             )
-            materia.save()
-            return Response({"materia_created_nrc: ": materia.nrc}, 201)
-        return Response(materia.errors, status=status.HTTP_400_BAD_REQUEST)
+            producto.save()
+            return Response({"producto_created_id: ": producto.id}, 201)
+        return Response(producto.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class MateriaViewEdit(generics.CreateAPIView):
+class ProductosViewEdit(generics.CreateAPIView):
     permissions_classes = (permissions.IsAuthenticated,)
     def put(self, request, *args, **kwargs):
-        materia = get_object_or_404(Materias, nrc=request.data["nrc"])
-        materia.nombre = request.data["nombre"]
-        materia.seccion = request.data["seccion"]
-        materia.dias = json.dumps(request.data["dias"])
-        materia.hora_inicio = request.data["hora_inicio"]
-        materia.hora_final = request.data["hora_final"]
-        materia.salon = request.data["salon"]
-        materia.programa = request.data["programa"]
-        materia.save()
+        producto = get_object_or_404(Productos, id=request.data["id"])
+        producto.nombre = request.data["nombre"]
+        producto.foto = request.data["foto"]
+        producto.descripcion = request.data["descripcion"]
+        producto.precio = request.data["precio"]
+        producto.unidades = request.data["unidades"]
+        producto.entregas = json.dumps(request.data["entregas"])
+        producto.save()
         
-        materias = MateriasSerializer(materia, many=False).data
+        productos = ProductosSerializer(producto, many=False).data
         
-        return Response(materias, 200)
+        return Response(productos, 200)
     
     def delete(self, request, *args, **kwargs):
-        materia = get_object_or_404(Materias, nrc=request.GET.get("nrc"))
+        producto = get_object_or_404(Productos, id=request.GET.get("id"))
         try:
-            materia.delete()
-            return Response({"details": "Materia Eliminada"}, 200)
+            producto.delete()
+            return Response({"details": "Producto Eliminado"}, 200)
         except Exception as e:
             return Response({"details": "No se pudo eliminar"}, 400)
         

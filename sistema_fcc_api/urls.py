@@ -43,12 +43,12 @@ urlpatterns = [
        # path('lista-maestro/', vendedor.MaestroAll.as_view()),
         #Editar maestro
        # path('maestro-edit/', vendedor.MaestroViewEdit.as_view()),
-        #registrar Materias 
-        path('productos/', productos.MateriaView.as_view()),
-        #Materias Data
-       # path('lista-materia/', productos.MateriasAll.as_view()),
-        #editar materias
-       # path('materia-edit/', productos.MateriaViewEdit.as_view()),
+        #registrar Productos
+        path('productos/', productos.ProductosView.as_view()),
+        #Productos data
+        path('lista-productos/', productos.ProductosAll.as_view()),
+        #editar productos
+       path('productos-edit/', productos.ProductosViewEdit.as_view()),
     #Login
         path('token/', auth.CustomAuthToken.as_view()),
     #Logout
