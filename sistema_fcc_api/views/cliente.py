@@ -30,22 +30,22 @@ import string
 import random
 import json
 
-class AlumnoAll(generics.CreateAPIView):
+class ClienteAll(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, *args, **kwargs):
-        alumno = Alumnos.objects.filter(user__is_active = 1).order_by("id")
-        lista = AlumnoSerializer(alumno, many=True).data
+        cliente = Clientes.objects.filter(user__is_active = 1).order_by("id")
+        lista = ClientesSerializer(cliente, many=True).data
         
         return Response(lista, 200)
     
-class AlumnoView(generics.CreateAPIView):
+class ClienteView(generics.CreateAPIView):
     #Obtener usuario por ID
     # permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, *args, **kwargs):
-        alumno = get_object_or_404(Alumnos, id = request.GET.get("id"))
-        alumno = AlumnoSerializer(alumno, many=False).data
+        cliente = get_object_or_404(Clientes, id = request.GET.get("id"))
+        cliente = ClientesSerializer(cliente, many=False).data
 
-        return Response(alumno, 200)
+        return Response(cliente, 200)
     
     #Registrar nuevo usuario
     @transaction.atomic
@@ -80,46 +80,38 @@ class AlumnoView(generics.CreateAPIView):
             user.save()
 
             #Create a profile for the user
-            alumno = Alumnos.objects.create(user=user,
-                                            matricula= request.data["matricula"],
-                                            telefono= request.data["telefono"],
-                                            curp= request.data["curp"].upper(),
-                                            fecha_nacimiento= request.data["fecha_nacimiento"],
-                                            rfc= request.data["rfc"].upper(),
+            cliente = Clientes.objects.create(user=user,
                                             edad= request.data["edad"],
-                                            ocupacion= request.data["ocupacion"])
-            alumno.save()
+                                            foto = request.data["foto"])
+            cliente.save()
 
-            return Response({"alumno_created_id": alumno.id }, 201)
+            return Response({"cliente_created_id": cliente.id }, 201)
 
         return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class AlumnoViewEdit(generics.CreateAPIView):
+class ClienteViewEdit(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     def put(self, request, *args, **kwargs):
         # iduser=request.data["id"]
-        alumno = get_object_or_404(Alumnos, id=request.data["id"])
-        alumno.matricula = request.data["matricula"]
-        alumno.fecha_nacimiento = request.data["fecha_nacimiento"]
-        alumno.telefono = request.data["telefono"]
-        alumno.rfc = request.data["rfc"]
-        alumno.curp = request.data["curp"]
-        alumno.edad = request.data["edad"]
-        alumno.ocupacion = request.data["ocupacion"]
-        alumno.save()
-        temp = alumno.user
+        cliente = get_object_or_404(Clientes, id=request.data["id"])
+
+        cliente.edad = request.data["edad"]
+       
+        cliente.save()
+        temp = cliente.user
         temp.first_name = request.data["first_name"]
         temp.last_name = request.data["last_name"]
+        temp.foto = request.data["foto"]
         temp.save()
-        user = AlumnoSerializer(alumno, many=False).data
+        user = ClientesSerializer(cliente, many=False).data
 
         return Response(user,200)
     
     #Eliminar alumno
     def delete(self, request, *args, **kwargs):
-        alumno = get_object_or_404(Alumnos, id=request.GET.get("id"))
+        cliente = get_object_or_404(Clientes, id=request.GET.get("id"))
         try:
-            alumno.user.delete()
-            return Response({"details":"Alumno eliminado"},200)
+            cliente.user.delete()
+            return Response({"details":"Cliente eliminado"},200)
         except Exception as e:
             return Response({"details":"Algo pasó al eliminar"},400)

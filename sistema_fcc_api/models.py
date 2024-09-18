@@ -25,6 +25,7 @@ class Clientes (models. Model):
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, default=None)
     edad = models.IntegerField(null=True, blank=True)
+    foto = models.ImageField(upload_to='images/perfil', default='images/perfil/no-image.jpg')
     creation = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     update = models.DateTimeField(null=True, blank=True)
     
@@ -46,7 +47,7 @@ class Vendedores (models. Model):
 class Productos (models.Model):
     id = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=255, null=True, blank=True)
-    foto = models.ImageField(upload_to='images/')
+    foto = models.ImageField(upload_to='images/productos', default='images/productos/no-product.jpg')
     descripcion = models.TextField(null= True, blank=True)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     unidades = models.IntegerField(null=True, blank=True)

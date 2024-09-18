@@ -32,11 +32,11 @@ urlpatterns = [
         #Editar Admin 
        #  path('admin-edit/', users.AdminViewEdit.as_view()),
         #Create Alumnos
-        path('cliente/', cliente.AlumnoView.as_view()),
+        path('cliente/', cliente.ClienteView.as_view()),
         #Alumnos Data
-      ##  path('lista-alumno/', cliente.AlumnoAll.as_view()),
+      ##path('lista-alumno/', cliente.AlumnoAll.as_view()),
         #Editar alumnos
-       # path('alumno-edit/',cliente.AlumnoViewEdit.as_view()),
+       path('cliente-edit/', cliente.ClienteViewEdit.as_view()),
         #Creater Maestros
         path('vendedor/', vendedor.MaestroView.as_view()),
         #Maestros Data
