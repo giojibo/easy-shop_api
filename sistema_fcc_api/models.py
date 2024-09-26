@@ -37,6 +37,7 @@ class Vendedores (models. Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, default=None)
     telefono = models.CharField(max_length=255, null=True, blank=True)
     edad = models.IntegerField(null=True, blank=True)
+    foto = models.ImageField(upload_to='images/perfil', default='images/perfil/no-image.jpg')
     creation = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     update = models.DateTimeField(null=True, blank=True)
     

@@ -31,7 +31,7 @@ import string
 import random
 import json
 
-class MaestroAll(generics.CreateAPIView):
+class VendedoresAll(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, *args, **kwargs):
         vendedores = Vendedores.objects.filter(user__is_active = 1).order_by("id")
@@ -40,19 +40,19 @@ class MaestroAll(generics.CreateAPIView):
         if not vendedores: 
             return Response({},400)
         for vendedor in vendedores:
-            vendedor["materias_json"] = json.loads(vendedor["materias_json"])
+            vendedor["foto"] = json.loads(vendedor["foto"])
         
         return Response(vendedores, 200)
     
-class MaestroView(generics.CreateAPIView):
+class VendedoresView(generics.CreateAPIView):
     #Obtener usuario por ID
     # permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, *args, **kwargs):
-        maestro = get_object_or_404(Maestros, id = request.GET.get("id"))
-        maestro = VendedoresSerializer(maestro, many=False).data
-        maestro["materias_json"] = json.loads(maestro["materias_json"])
+        vendedor = get_object_or_404(Vendedores, id = request.GET.get("id"))
+        vendedor = VendedoresSerializer(Vendedores, many=False).data
+        #vendedor["foto"] = json.loads(vendedor["foto"])
 
-        return Response(maestro, 200)
+        return Response(vendedor, 200)
     
     #Registrar nuevo usuario
     @transaction.atomic
@@ -87,48 +87,40 @@ class MaestroView(generics.CreateAPIView):
             user.save()
 
             #Create a profile for the user
-            maestro = Maestros.objects.create(user=user,
-                                            id_trabajador= request.data["id_trabajador"],
-                                            fecha_nacimiento= request.data["fecha_nacimiento"],
+            vendedor = Vendedores.objects.create(user=user,
+                                            id= request.data["id"],
                                             telefono= request.data["telefono"],
-                                            rfc= request.data["rfc"].upper(),
-                                            cubiculo= request.data["cubiculo"],
-                                            area_investigacion= request.data["area_investigacion"],
-                                            materias_json= json.dumps(request.data["materias_json"]))
+                                            foto = request.data["foto"])
                                             
-            maestro.save()
+            vendedor.save()
 
-            return Response({"maestro_created_id": maestro.id }, 201)
+            return Response({"vendedor_created_id": vendedor.id }, 201)
 
         return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class MaestroViewEdit(generics.CreateAPIView):
+class VendedoresViewEdit(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     def put(self, request, *args, **kwargs):
         # iduser=request.data["id"]
-        maestro = get_object_or_404(Maestros, id=request.data["id"])
-        maestro.id_trabajador = request.data["id_trabajador"]
-        maestro.fecha_nacimiento = request.data["fecha_nacimiento"]
-        maestro.telefono = request.data["telefono"]
-        maestro.rfc = request.data["rfc"]
-        maestro.cubiculo = request.data["cubiculo"]
-        maestro.area_investigacion = request.data["area_investigacion"]
-        maestro.materias_json = json.dumps(request.data["materias_json"])
-        maestro.save()
-        temp = maestro.user
+        vendedor = get_object_or_404(Vendedores, id=request.data["id"])
+        vendedor.id = request.data["id_trabajador"]
+        vendedor.telefono = request.data["telefono"]
+        vendedor.edad = request.data["edad"]
+        vendedor.foto = request.data["foto"]
+        vendedor.save()
+        temp = vendedor.user
         temp.first_name = request.data["first_name"]
         temp.last_name = request.data["last_name"]
         temp.save()
-        user = MaestroSerializer(maestro, many=False).data
+        user = VendedoresSerializer(vendedor, many=False).data
 
         return Response(user,200)
     
-    #Eliminar maestro 
-    #Eliminar administrador
+    #Eliminar vendedor 
     def delete(self, request, *args, **kwargs):
-        maestro = get_object_or_404(Maestros, id=request.GET.get("id"))
+        vendedor = get_object_or_404(Vendedores, id=request.GET.get("id"))
         try:
-            maestro.user.delete()
-            return Response({"details":"Maestro eliminado"},200)
+            vendedor.user.delete()
+            return Response({"details":"Vendedor eliminado"},200)
         except Exception as e:
             return Response({"details":"Algo pasó al eliminar"},400)
