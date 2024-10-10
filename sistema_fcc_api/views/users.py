@@ -102,22 +102,23 @@ class AdminViewEdit(generics.CreateAPIView):
         total_admins = len(lista_admins)
 
         #Obtener total de maestros
-        maestros = Maestros.objects.filter(user__is_active = 1).order_by("id")
-        lista_maestros = MaestroSerializer(maestros, many=True).data
-        #Aquí convertimos los valores de nuevo a un array
-        if not lista_maestros:
+        vendedores = vendedores.objects.filter(user__is_active = 1).order_by("id")
+        lista_vendedores = VendedoresSerializer(vendedores, many=True).data
+        total_vendedores = len(lista_vendedores)
+        """#Aquí convertimos los valores de nuevo a un array
+        if not lista_vendedores:
             return Response({},400)
-        for maestro in lista_maestros:
-            maestro["materias_json"] = json.loads(maestro["materias_json"])
+        for vendedores in lista_vendedores:
+            vendedores["materias_json"] = json.loads(vendedores["materias_json"])
         
-        total_maestros = len(lista_maestros)
+        total_maestros = len(lista_maestros)"""
 
         #Obtener total de alumnos
-        alumnos = Alumnos.objects.filter(user__is_active = 1).order_by("id")
-        lista_alumnos = AlumnoSerializer(alumnos, many=True).data
-        total_alumnos = len(lista_alumnos)
+        clientes = clientes.objects.filter(user__is_active = 1).order_by("id")
+        lista_clientes = ClientesSerializer(clientes, many=True).data
+        total_clientes = len(lista_clientes)
 
-        return Response({'admins': total_admins, 'maestros': total_maestros, 'alumnos':total_alumnos }, 200)
+        return Response({'admins': total_admins, 'Vendedores': total_vendedores, 'clientes':total_clientes }, 200)
     
     #Editar administrador
     def put(self, request, *args, **kwargs):

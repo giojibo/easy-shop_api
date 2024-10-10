@@ -37,10 +37,10 @@ class VendedoresAll(generics.CreateAPIView):
         vendedores = Vendedores.objects.filter(user__is_active = 1).order_by("id")
         vendedores = VendedoresSerializer(vendedores, many=True).data
         
-        if not vendedores: 
-            return Response({},400)
-        for vendedor in vendedores:
-            vendedor["foto"] = json.loads(vendedor["foto"])
+        #if not vendedores: 
+        #    return Response({},400)
+        #for vendedor in vendedores:
+        #    vendedor["foto"] = json.loads(vendedor["foto"])
         
         return Response(vendedores, 200)
     
@@ -49,7 +49,7 @@ class VendedoresView(generics.CreateAPIView):
     # permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, *args, **kwargs):
         vendedor = get_object_or_404(Vendedores, id = request.GET.get("id"))
-        vendedor = VendedoresSerializer(Vendedores, many=False).data
+        vendedor = VendedoresSerializer(vendedor, many=False).data
         #vendedor["foto"] = json.loads(vendedor["foto"])
 
         return Response(vendedor, 200)
@@ -88,8 +88,9 @@ class VendedoresView(generics.CreateAPIView):
 
             #Create a profile for the user
             vendedor = Vendedores.objects.create(user=user,
-                                            id= request.data["id"],
+                                            #id= request.data["id"],
                                             telefono= request.data["telefono"],
+                                            edad = request.data["edad"],
                                             foto = request.data["foto"])
                                             
             vendedor.save()
@@ -103,7 +104,7 @@ class VendedoresViewEdit(generics.CreateAPIView):
     def put(self, request, *args, **kwargs):
         # iduser=request.data["id"]
         vendedor = get_object_or_404(Vendedores, id=request.data["id"])
-        vendedor.id = request.data["id_trabajador"]
+        vendedor.id = request.data["id"]
         vendedor.telefono = request.data["telefono"]
         vendedor.edad = request.data["edad"]
         vendedor.foto = request.data["foto"]

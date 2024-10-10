@@ -25,7 +25,7 @@ class Clientes (models. Model):
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, default=None)
     edad = models.IntegerField(null=True, blank=True)
-    foto = models.ImageField(upload_to='images/perfil', default='images/perfil/no-image.jpg')
+    foto = models.ImageField(upload_to='images/perfil/cliente', blank=True, null=True)
     creation = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     update = models.DateTimeField(null=True, blank=True)
     

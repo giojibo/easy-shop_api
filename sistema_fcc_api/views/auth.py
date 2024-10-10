@@ -53,8 +53,9 @@ class CustomAuthToken(ObtainAuthToken):
                 cliente["token"] = token.key
                 cliente["rol"] = "cliente"
                 return Response(cliente,200)
+            
             if role_names == 'vendedor':
-                vendedor= vendedor.objects.filter(user=user).first()
+                vendedor= Vendedores.objects.filter(user=user).first()
                 vendedor= VendedoresSerializer(vendedor).data
                 vendedor["token"] = token.key
                 vendedor["rol"] = "vendedor"
