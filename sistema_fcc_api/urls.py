@@ -43,9 +43,9 @@ urlpatterns = [
         #Creater Maestros
         path('vendedor/', vendedor.VendedoresView.as_view()),
         #Maestros Data
-       # path('lista-maestro/', vendedor.MaestroAll.as_view()),
+       #path('lista-maestro/', vendedor.MaestroAll.as_view()),
         #Editar maestro
-       # path('maestro-edit/', vendedor.MaestroViewEdit.as_view()),
+       path('vendedor-edit/', vendedor.VendedoresViewEdit.as_view()),
         #registrar Productos
         path('productos/', productos.ProductosView.as_view()),
         #Productos data

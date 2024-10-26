@@ -5,6 +5,8 @@ from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import AbstractUser, User
 from django.conf import settings
 
+#from sistema_fcc_api.settings import vendedor_image_upload_to
+
 class BearerTokenAuthentication(TokenAuthentication):
     keyword = u"Bearer"
 
@@ -37,7 +39,7 @@ class Vendedores (models. Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, default=None)
     telefono = models.CharField(max_length=255, null=True, blank=True)
     edad = models.IntegerField(null=True, blank=True)
-    foto = models.ImageField(upload_to='images/perfil', default='images/perfil/no-image.jpg')
+    foto = models.ImageField(upload_to='images/perfil/vendedores', default='images/perfil/no-image.png')
     creation = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     update = models.DateTimeField(null=True, blank=True)
     

@@ -17,7 +17,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 #Para subir imagenes sn Django
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Define la URL predeterminada para la foto
+DEFAULT_FOTO_URL = '/media/images/perfil/no-image.png'
 
 
 # Quick-start development settings - unsuitable for production

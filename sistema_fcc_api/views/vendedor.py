@@ -27,6 +27,7 @@ from django_filters import rest_framework as filters
 from datetime import datetime
 from django.conf import settings
 from django.template.loader import render_to_string
+from django.http import JsonResponse
 import string
 import random
 import json
@@ -49,10 +50,16 @@ class VendedoresView(generics.CreateAPIView):
     # permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, *args, **kwargs):
         vendedor = get_object_or_404(Vendedores, id = request.GET.get("id"))
-        vendedor = VendedoresSerializer(vendedor, many=False).data
-        #vendedor["foto"] = json.loads(vendedor["foto"])
+        vendedor_data = VendedoresSerializer(vendedor, many=False).data
+        
+        if vendedor.foto:
+            vendedor_data["foto"] = request.build_absolute_uri(vendedor.foto.url)  # URL completa de la imagen
+        else:
+            vendedor_data["foto"] = request.build_absolute_uri(settings.DEFAULT_FOTO_URL)  # URL completa de la imagen predeterminada
+    
+        return JsonResponse(vendedor_data)
+    
 
-        return Response(vendedor, 200)
     
     #Registrar nuevo usuario
     @transaction.atomic
