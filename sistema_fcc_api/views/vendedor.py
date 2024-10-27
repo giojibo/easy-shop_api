@@ -111,10 +111,14 @@ class VendedoresViewEdit(generics.CreateAPIView):
     def put(self, request, *args, **kwargs):
         # iduser=request.data["id"]
         vendedor = get_object_or_404(Vendedores, id=request.data["id"])
-        vendedor.id = request.data["id"]
-        vendedor.telefono = request.data["telefono"]
-        vendedor.edad = request.data["edad"]
-        vendedor.foto = request.data["foto"]
+        
+        vendedor.telefono = request.data.get("telefono", vendedor.telefono)
+        vendedor.edad = request.data.get("edad", vendedor.edad)
+        
+        # Solo actualiza la foto si está presente en la solicitud
+        if 'foto' in request.data:
+            vendedor.foto = request.data["foto"]
+
         vendedor.save()
         temp = vendedor.user
         temp.first_name = request.data["first_name"]
