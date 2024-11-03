@@ -37,13 +37,13 @@ urlpatterns = [
         #Create Alumnos
         path('cliente/', cliente.ClienteView.as_view()),
         #Alumnos Data
-      ##path('lista-alumno/', cliente.AlumnoAll.as_view()),
+      path('lista-clientes/', cliente.ClienteAll.as_view()),
         #Editar alumnos
        path('cliente-edit/', cliente.ClienteViewEdit.as_view()),
         #Creater Maestros
         path('vendedor/', vendedor.VendedoresView.as_view()),
         #Maestros Data
-       #path('lista-maestro/', vendedor.MaestroAll.as_view()),
+       path('lista-vendedor/', vendedor.VendedoresAll.as_view()),
         #Editar maestro
        path('vendedor-edit/', vendedor.VendedoresViewEdit.as_view()),
         #registrar Productos

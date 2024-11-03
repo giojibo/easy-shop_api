@@ -20,12 +20,14 @@ class AdminSerializer(serializers.ModelSerializer):
 
 class ClientesSerializer(serializers.ModelSerializer): 
     user=UserSerializer(read_only=True)
+    foto = serializers.ImageField(use_url=True)  
     class Meta: 
         model = Clientes
         fields = "__all__"
         
 class VendedoresSerializer(serializers.ModelSerializer): 
     user=UserSerializer(read_only=True)
+    foto = serializers.ImageField(use_url=True)  
     
     class Meta: 
         model = Vendedores
