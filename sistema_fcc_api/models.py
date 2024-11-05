@@ -60,5 +60,15 @@ class Productos (models.Model):
     
     def __str__(self):
         return "Productos" + self.nombre+" Producto: "+ self.id
+
+class Comentarios(models.Model):
+    producto = models.ForeignKey(Productos, on_delete=models.CASCADE)
+    usuario = models.CharField(max_length=100)
+    contenido = models.TextField()
+    calificacion = models.IntegerField()  # Campo para la calificación
+    creation = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.usuario}: {self.contenido}"
     
     
