@@ -47,11 +47,11 @@ urlpatterns = [
         #Editar maestro
        path('vendedor-edit/', vendedor.VendedoresViewEdit.as_view()),
         #registrar Productos
-        path('productos/', productos.ProductosView.as_view()),
+        path('producto/', productos.ProductosView.as_view()),
         #Productos data
         path('lista-productos/', productos.ProductosAll.as_view()),
         #editar productos
-       path('productos-edit/', productos.ProductosViewEdit.as_view()),
+       path('producto-edit/', productos.ProductosViewEdit.as_view()),
     #Login
         path('token/', auth.CustomAuthToken.as_view()),
     #Logout
