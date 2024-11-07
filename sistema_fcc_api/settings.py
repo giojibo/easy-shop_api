@@ -21,6 +21,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Define la URL predeterminada para la foto
 DEFAULT_FOTO_URL = '/media/images/perfil/no-image.png'
+DEFAULT_PRODUCTO_URL = '/media/images/productos/no-product.png'
 
 
 # Quick-start development settings - unsuitable for production

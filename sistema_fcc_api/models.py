@@ -48,7 +48,7 @@ class Vendedores (models. Model):
     
     
 class Productos (models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     nombre = models.CharField(max_length=255, null=True, blank=True)
     foto = models.ImageField(upload_to='images/productos', default='images/productos/no-product.jpg')
     descripcion = models.TextField(null= True, blank=True)
