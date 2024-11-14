@@ -12,6 +12,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework import viewsets
+from sistema_fcc_api.models import Comentarios
+from sistema_fcc_api.serializers import ComentariosSerializer
 
 class ComentariosView(generics.ListCreateAPIView):
     "Vista para listar y crear comentarios asociados a un producto."
