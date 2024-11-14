@@ -42,49 +42,42 @@ class ProductosAll(generics.GenericAPIView):
     
 
 class ProductosView(generics.CreateAPIView):
-    permission_classes = (permissions.AllowAny)
-    
+    permission_classes = [permissions.AllowAny]
     
     def get(self, request, *args, **kwargs):
-        producto = get_object_or_404(Productos, id = request.GET.get("id"))
+        producto = get_object_or_404(Productos, id=request.GET.get("id"))
         producto_data = ProductosSerializer(producto, many=False).data
-       # producto["entregas"] = json.loads(producto["entregas"])
 
         if producto.foto: 
             producto_data["foto"] = request.build_absolute_uri(producto.foto.url)
             print(request.build_absolute_uri(producto.foto.url))
-
         else:
-            producto_data["foto"] = request.build_absolute_uri(settings.DEFAULT_PRODUCTO_URL)  # URL completa de la imagen predeterminada
+            producto_data["foto"] = request.build_absolute_uri(settings.DEFAULT_PRODUCTO_URL)
             
         return JsonResponse(producto_data)
-    
     
     @transaction.atomic
     def post(self, request, *args, **kwargs):
         producto = ProductosSerializer(data=request.data)
         if producto.is_valid():
-            
             product_id = request.data.get("id")
-            
-            
             existing_id = Productos.objects.filter(id=product_id).first()
             
             if existing_id:
-                return Response({"message": "id" +id+", is already taken"},400)
+                return Response({"message": f"id {product_id} is already taken"}, status=400)
             
             producto = Productos.objects.create(
-                                                #id = request.data.get("id"),
-                                                nombre=request.data.get("nombre"),  # Usando .get() para evitar errores
-                                                foto=request.data.get("foto"),
-                                                descripcion=request.data.get("descripcion"),
-                                                precio=request.data.get("precio"),
-                                                unidades=request.data.get("unidades", 0),  # Asignando un valor por defecto en caso de que no exista la clave
-                                                entregas=json.dumps(request.data.get("entregas", []))  # Similar con entregas, asegurando que siempre haya un valor (vacío por defecto)
-)
+                nombre=request.data.get("nombre"),
+                foto=request.data.get("foto"),
+                descripcion=request.data.get("descripcion"),
+                precio=request.data.get("precio"),
+                unidades=request.data.get("unidades", 0),
+                entregas=json.dumps(request.data.get("entregas", []))
+            )
             producto.save()
-            return Response({"producto_created_id: ": producto.id}, 201)
+            return Response({"producto_created_id": producto.id}, status=201)
         return Response(producto.errors, status=status.HTTP_400_BAD_REQUEST)
+
     
 class ProductosViewEdit(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
