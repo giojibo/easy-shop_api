@@ -21,7 +21,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Define la URL predeterminada para la foto
 DEFAULT_FOTO_URL = '/media/images/perfil/no-image.png'
-DEFAULT_PRODUCTO_URL = '/media/images/productos/no-product.png'
+DEFAULT_PRODUCTO_URL = '/media/images/productos/no-product.jpg'
 
 
 # Quick-start development settings - unsuitable for production
@@ -170,6 +170,7 @@ REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': (),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'sistema_fcc_api.models.BearerTokenAuthentication',
