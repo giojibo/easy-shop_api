@@ -31,27 +31,27 @@ urlpatterns = [
     #Create User
         path('admin/', users.AdminView.as_view()),
         #Admin Data
-       # path('lista-admin/', users.AdminAll.as_view()),
+        path('lista-admin/', users.AdminAll.as_view()),
         #Editar Admin 
-       #  path('admin-edit/', users.AdminViewEdit.as_view()),
+        path('admin-edit/', users.AdminViewEdit.as_view()),
         #Create Alumnos
         path('cliente/', cliente.ClienteView.as_view()),
         #Alumnos Data
-      path('lista-clientes/', cliente.ClienteAll.as_view()),
+        path('lista-clientes/', cliente.ClienteAll.as_view()),
         #Editar alumnos
-       path('cliente-edit/', cliente.ClienteViewEdit.as_view()),
+        path('cliente-edit/', cliente.ClienteViewEdit.as_view()),
         #Creater Maestros
         path('vendedor/', vendedor.VendedoresView.as_view()),
         #Maestros Data
-       path('lista-vendedor/', vendedor.VendedoresAll.as_view()),
+        path('lista-vendedor/', vendedor.VendedoresAll.as_view()),
         #Editar maestro
-       path('vendedor-edit/', vendedor.VendedoresViewEdit.as_view()),
+        path('vendedor-edit/', vendedor.VendedoresViewEdit.as_view()),
         #registrar Productos
         path('producto/', productos.ProductosView.as_view()),
         #Productos data
         path('lista-productos/', productos.ProductosAll.as_view()),
         #editar productos
-       path('producto-edit/', productos.ProductosViewEdit.as_view()),
+        path('producto-edit/', productos.ProductosViewEdit.as_view()),
     #Login
         path('token/', auth.CustomAuthToken.as_view()),
     #Logout

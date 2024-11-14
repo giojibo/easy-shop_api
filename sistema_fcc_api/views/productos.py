@@ -31,19 +31,19 @@ import string
 import random
 import json
 
-class ProductosAll(generics.CreateAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+class ProductosAll(generics.GenericAPIView):
+    permission_classes = [permissions.AllowAny]  # Permite el acceso sin autenticación
+    authentication_classes = []
+
     def get(self, request, *args, **kwargs):
         productos = Productos.objects.order_by("id")
-        productos = ProductosSerializer(productos, many=True).data
-        
-        #for producto in productos:
-        #    producto["entregas"] = json.loads(producto["entregas"])
-        
-        return Response(productos, 200)
+        productos_data = ProductosSerializer(productos, many=True).data
+        return Response(productos_data, status=200)
     
 
 class ProductosView(generics.CreateAPIView):
+    permission_classes = (permissions.AllowAny)
+    
     
     def get(self, request, *args, **kwargs):
         producto = get_object_or_404(Productos, id = request.GET.get("id"))
@@ -51,11 +51,14 @@ class ProductosView(generics.CreateAPIView):
        # producto["entregas"] = json.loads(producto["entregas"])
 
         if producto.foto: 
-            producto_data["foto"] = request.build_absolute_url(producto.foto.url)
+            producto_data["foto"] = request.build_absolute_uri(producto.foto.url)
+            print(request.build_absolute_uri(producto.foto.url))
+
         else:
             producto_data["foto"] = request.build_absolute_uri(settings.DEFAULT_PRODUCTO_URL)  # URL completa de la imagen predeterminada
             
         return JsonResponse(producto_data)
+    
     
     @transaction.atomic
     def post(self, request, *args, **kwargs):
@@ -84,7 +87,7 @@ class ProductosView(generics.CreateAPIView):
         return Response(producto.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class ProductosViewEdit(generics.CreateAPIView):
-    permissions_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,)
     def put(self, request, *args, **kwargs):
         producto = get_object_or_404(Productos, id=request.data["id"])
         producto.nombre = request.data["nombre"]
