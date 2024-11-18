@@ -71,7 +71,7 @@ class ProductosView(generics.CreateAPIView):
                 foto=request.data.get("foto"),
                 descripcion=request.data.get("descripcion"),
                 precio=request.data.get("precio"),
-                unidades=request.data.get("unidades", 0),
+                cantidad=request.data.get("cantidad"),
                 entregas=json.dumps(request.data.get("entregas", []))
             )
             producto.save()
@@ -84,11 +84,13 @@ class ProductosViewEdit(generics.CreateAPIView):
     def put(self, request, *args, **kwargs):
         producto = get_object_or_404(Productos, id=request.data["id"])
         producto.nombre = request.data["nombre"]
-        producto.foto = request.data["foto"]
+        
         producto.descripcion = request.data["descripcion"]
         producto.precio = request.data["precio"]
-        producto.unidades = request.data["unidades"]
+        producto.cantidad = request.data["cantidad"]
         producto.entregas = json.dumps(request.data["entregas"])
+        if "foto" in request.data:
+            producto.foto = request.data["foto"]
         producto.save()
         
         productos = ProductosSerializer(producto, many=False).data

@@ -53,7 +53,7 @@ class Productos (models.Model):
     foto = models.ImageField(upload_to='images/productos', default='images/productos/no-product.jpg')
     descripcion = models.TextField(null= True, blank=True)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
-    unidades = models.IntegerField(null=True, blank=True)
+    cantidad = models.IntegerField(null=True, blank=True)
     entregas = models.TextField(null=True, blank=True)
     creation = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     update = models.DateTimeField(null=True, blank=True)
