@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.db.models import *
 from django.db import transaction
-from easy_shop_Api.serializers import *
-from easy_shop_Api.models import *
+from sistema_fcc_api.serializers import *
+from sistema_fcc_api.models import *
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication, TokenAuthentication
 from rest_framework.generics import CreateAPIView, DestroyAPIView, UpdateAPIView
 from rest_framework import permissions
@@ -34,7 +34,7 @@ class ComentariosView(generics.ListCreateAPIView):
         return Response(comentario_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ComentariosEditDeleteView(generics.RetrieveUpdateDestroyAPIView):
+class ComentariosViewEdit(generics.RetrieveUpdateDestroyAPIView):
     "Vista para editar o eliminar un comentario."
     queryset = Comentarios.objects.all()
     serializer_class = ComentariosSerializer

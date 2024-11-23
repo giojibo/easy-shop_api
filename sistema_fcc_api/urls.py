@@ -24,6 +24,7 @@ from sistema_fcc_api.views import auth
 from sistema_fcc_api.views import cliente
 from sistema_fcc_api.views import vendedor
 from sistema_fcc_api.views import productos
+from sistema_fcc_api.views import comentarios
 
 urlpatterns = [
     #Version
@@ -52,6 +53,10 @@ urlpatterns = [
         path('lista-productos/', productos.ProductosAll.as_view()),
         #editar productos
         path('producto-edit/', productos.ProductosViewEdit.as_view()),
+
+        #agregar comentarios
+        path('comentarios/', comentarios.ComentariosView.as_view()), 
+        path('comentarios-edit/', comentarios.ComentariosViewEdit.as_view()), 
     #Login
         path('token/', auth.CustomAuthToken.as_view()),
     #Logout
