@@ -53,8 +53,12 @@ class ProductosView(generics.CreateAPIView):
             print(request.build_absolute_uri(producto.foto.url))
         else:
             producto_data["foto"] = request.build_absolute_uri(settings.DEFAULT_PRODUCTO_URL)
+
+        comentarios = Comentarios.objects.filter(producto=producto).order_by('-creation')
+        producto_data["comentarios"] = ComentariosSerializer(comentarios, many=True).data
+
             
-        return JsonResponse(producto_data)
+        return JsonResponse(producto_data, safe=False)
     
     @transaction.atomic
     def post(self, request, *args, **kwargs):

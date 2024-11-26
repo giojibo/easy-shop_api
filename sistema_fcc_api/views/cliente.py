@@ -26,6 +26,7 @@ from django_filters import rest_framework as filters
 from datetime import datetime
 from django.conf import settings
 from django.template.loader import render_to_string
+from django.http import JsonResponse
 import string
 import random
 import json
@@ -34,18 +35,23 @@ class ClienteAll(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, *args, **kwargs):
         cliente = Clientes.objects.filter(user__is_active = 1).order_by("id")
-        lista = ClientesSerializer(cliente, many=True).data
+        cliente = ClientesSerializer(cliente, many=True).data
         
-        return Response(lista, 200)
+        return Response(cliente, 200)
     
 class ClienteView(generics.CreateAPIView):
     #Obtener usuario por ID
     # permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, *args, **kwargs):
         cliente = get_object_or_404(Clientes, id = request.GET.get("id"))
-        cliente = ClientesSerializer(cliente, many=False).data
+        cliente_data = ClientesSerializer(cliente, many=False).data
 
-        return Response(cliente, 200)
+        if cliente.foto:
+            cliente_data["foto"] = request.build_absolute_uri(cliente.foto.url)
+        else: 
+            cliente_data["foto"] = request.build_absolute_uri(settings.DEFAULT_FOTO_URL)
+
+        return JsonResponse(cliente_data)
     
     #Registrar nuevo usuario
     @transaction.atomic
@@ -96,6 +102,9 @@ class ClienteViewEdit(generics.CreateAPIView):
         cliente = get_object_or_404(Clientes, id=request.data["id"])
 
         cliente.edad = request.data["edad"]
+
+        if 'foto' in request.data:
+            cliente.foto = request.data["foto"]
        
         cliente.save()
         temp = cliente.user
