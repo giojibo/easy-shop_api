@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: easy-shop-api
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn sistema_fcc_api.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        value: your-secret-key
+    disk:
+      - name: media-disk
+        mountPath: /media/
+    static:
+      - type: web
+        name: media
+        path: /media/
+        disk: media-disk
