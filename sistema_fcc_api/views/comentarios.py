@@ -28,11 +28,11 @@ class ComentariosView(generics.ListCreateAPIView):
         "Crea un nuevo comentario para un producto."
         comentario_serializer = ComentariosSerializer(data=request.data)
         if comentario_serializer.is_valid():
-            # Aquí puedes asignar el usuario autenticado al comentario si es necesario
+            # Asignar el usuario autenticado al comentario si es necesario
+            comentario_serializer.validated_data['usuario'] = request.user.username  # O cualquier otro campo del usuario
             comentario_serializer.save()
             return Response(comentario_serializer.data, status=status.HTTP_201_CREATED)
         return Response(comentario_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class ComentariosViewEdit(generics.RetrieveUpdateDestroyAPIView):
     "Vista para editar o eliminar un comentario."

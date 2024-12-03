@@ -51,10 +51,9 @@ class ProductosSerializer(serializers.ModelSerializer):
 class ComentariosSerializer(serializers.ModelSerializer):
     producto = serializers.PrimaryKeyRelatedField(queryset=Productos.objects.all())  # Relación con el producto
     usuario = serializers.CharField(required=True)
-    contenido = serializers.CharField(required=True)  # Cambiado a 'contenido' para que coincida con el modelo
+    contenido = serializers.CharField(required=True)
     calificacion = serializers.IntegerField(required=True)  # Nuevo campo para la calificación
 
     class Meta:
         model = Comentarios
         fields = ['id', 'producto', 'usuario', 'contenido', 'calificacion', 'creation']
-        

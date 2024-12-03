@@ -62,13 +62,13 @@ class Productos (models.Model):
         return "Productos" + self.nombre+" Producto: "+ self.id
 
 class Comentarios(models.Model):
-    producto = models.ForeignKey(Productos, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Productos, on_delete=models.CASCADE)  # Cambiar producto_id por producto
     usuario = models.CharField(max_length=100)
     contenido = models.TextField()
     calificacion = models.IntegerField()  # Campo para la calificación
     creation = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def _str_(self):
         return f"{self.usuario}: {self.contenido}"
     
     
