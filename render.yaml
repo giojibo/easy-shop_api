@@ -14,4 +14,4 @@ services:
       - type: web
         name: media
         path: /media/
-        disk: media-disk 
+        disk: media-disk
