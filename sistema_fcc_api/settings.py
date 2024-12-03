@@ -12,13 +12,20 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import dj_database_url 
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 #Para subir imagenes sn Django
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#MEDIA_URL = '/media/'
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Define la URL predeterminada para la foto
 DEFAULT_FOTO_URL = '/media/images/perfil/no-image.png'
