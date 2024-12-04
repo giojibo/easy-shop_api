@@ -126,9 +126,9 @@ class AdminViewEdit(generics.CreateAPIView):
         admin = get_object_or_404(Administradores, id=request.data["id"])
         admin.clave_admin = request.data["clave_admin"]
         admin.telefono = request.data["telefono"]
-        admin.rfc = request.data["rfc"]
+       # admin.rfc = request.data["rfc"]
         admin.edad = request.data["edad"]
-        admin.ocupacion = request.data["ocupacion"]
+        #admin.ocupacion = request.data["ocupacion"]
         admin.save()
         temp = admin.user
         temp.first_name = request.data["first_name"]
