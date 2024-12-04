@@ -110,7 +110,7 @@ class ClienteViewEdit(generics.CreateAPIView):
         temp = cliente.user
         temp.first_name = request.data["first_name"]
         temp.last_name = request.data["last_name"]
-        temp.foto = request.data["foto"]
+        #temp.foto = request.data["foto"]
         temp.save()
         user = ClientesSerializer(cliente, many=False).data
 
